@@ -5,17 +5,20 @@ from typing import Optional, List, Tuple
 from flask import Flask, request, abort, render_template
 from constants import LOCAL_HOST, DOCKER_HOST, PORT_8000, PORT_8080
 
+
 class Loggerator:
     def __init__(self) -> None:
-        self.conn = sqlite3.connect('logs.db', check_same_thread=False)
+        self.conn = sqlite3.connect("logs.db", check_same_thread=False)
         self.c = self.conn.cursor()
 
     def schema_setup(self) -> None:
         # Create table "logs"
         # Drop table logs to avoid duplicate data
         self.c.execute("drop table if exists logs")
-        self.c.execute('''CREATE TABLE IF NOT EXISTS logs
-                         (ip text, user text, date text, method text, url text, code text)''')
+        self.c.execute(
+            """CREATE TABLE IF NOT EXISTS logs
+                         (ip text, user text, date text, method text, url text, code text)"""
+        )
 
         self.conn.commit()
 
@@ -51,25 +54,39 @@ class Loggerator:
                 # Extract relevant fields from the line
                 remote_host = fields[0]
                 remote_user = fields[2]
-                timestamp = fields[3].lstrip('[') + ' ' + fields[4]
-                timestamp = datetime.strptime(timestamp, '%d/%b/%Y %H:%M:%S')
+                timestamp = fields[3].lstrip("[") + " " + fields[4]
+                timestamp = datetime.strptime(timestamp, "%d/%b/%Y %H:%M:%S")
                 request_path = fields[7]
                 request_method = fields[6].strip('"').lower()
                 response_code = int(fields[9])
 
                 # Insert the extracted fields into the SQLite database
-                self.c.execute("INSERT INTO logs VALUES (?, ?, ?, ?, ?, ?)",
-                               (remote_host, remote_user, timestamp, request_method, request_path, response_code))
+                self.c.execute(
+                    "INSERT INTO logs VALUES (?, ?, ?, ?, ?, ?)",
+                    (
+                        remote_host,
+                        remote_user,
+                        timestamp,
+                        request_method,
+                        request_path,
+                        response_code,
+                    ),
+                )
                 self.conn.commit()
 
     def get_count(self):
         val = self.c.execute("select * from logs")
         print(f"ds: {val.fetchall()}")
 
-    def get_logs_request_builder(self, code: Optional[str] = None, method: Optional[str] = None,
-                                 user: Optional[str] = None) \
-            -> List[Tuple[str, str, str, str, str, str]]:
-        query = 'SELECT * FROM logs'
+    def get_logs_request_builder(
+        self,
+        code: Optional[str] = None,
+        method: Optional[str] = None,
+        user: Optional[str] = None,
+        page: int = 1,
+        limit: int = 100
+    ):
+        query = "SELECT * FROM logs"
         conditions = []
         if code:
             conditions.append(f'code = "{code}"')
@@ -78,8 +95,11 @@ class Loggerator:
         if user:
             conditions.append(f'user = "{user}"')
         if conditions:
-            query += ' WHERE ' + ' AND '.join(conditions)
-        query += ' ORDER BY date DESC'
+            query += " WHERE " + " AND ".join(conditions)
+        query += " ORDER BY date DESC"
+        # Pagination
+        start = (page - 1) * limit
+        query += f" LIMIT {limit} OFFSET {start}"
 
         print(query)
 
@@ -92,37 +112,36 @@ app = Flask(__name__)
 loggerator = Loggerator()
 
 
-@app.route('/logs', methods=['GET'])
+@app.route("/logs", methods=["GET"])
 def get_logs_request():
     """
     This function handles GET requests to the '/logs'
     """
-    code = request.args.get('code')
-    method = request.args.get('method')
-    user = request.args.get('user')
-
-    # TODO set pagination for better api response time
+    code = request.args.get("code")
+    method = request.args.get("method")
+    user = request.args.get("user")
+    page = request.args.get("page", default=1, type=int)
+    limit = request.args.get("limit", default=50, type=int)
 
     # Validate query parameters
-    valid_params = ['code', 'method', 'user']
+    valid_params = ["code", "method", "user", "page", "limit"]
     for key in request.args:
         if key not in valid_params:
             abort(400, f"Invalid query parameter: {key}")
     try:
         # Call the get_logs_request_builder method
-        return loggerator.get_logs_request_builder(code, method, user)
+        return loggerator.get_logs_request_builder(code, method, user, page, limit)
     except Exception as e:
         # Catch exception if any
         abort(500, f"Internal app error: {e}")
 
 
-@app.route('/', methods=['GET'])
+@app.route("/", methods=["GET"])
 def home_route():
+    return render_template("home.html")
 
-    return render_template('home.html')
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     loggerator.schema_setup()
     loggerator.receive_logs_from_loggertor()
     app.run(host=LOCAL_HOST, port=PORT_8000, debug=True)
