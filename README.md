@@ -30,9 +30,9 @@ bash
 1. Clone the repository: `git clone https://github.com/mehtapinal/jpmc.git`
     cd projects
 2. Build the Docker image
-    `docker build -t flask-loggerator .`
+    `docker build -t log-app-server .`
 3. Run the Docker image
-    `docker run -p 8000:8000 -p 8080:8080 --name flask-loggerator-container flask-loggerator`
+    `docker run -p 8000:8000 --name log-app-server log-app-server`
 
 ## Testing:
 To run  unit tests: `pytest test.py`
