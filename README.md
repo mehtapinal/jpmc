@@ -1,4 +1,4 @@
-# My Project
+# Log App Server
 This is a Flask app that receives logs from a remote server and stores them in an SQLite database. 
 It also provides a REST API to query the logs based on different criteria.
 
