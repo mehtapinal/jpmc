@@ -22,13 +22,13 @@ bash
 
 ## Installation
 ### Local Setup
-1. Clone the repository: `git clone https://github.com/mehtapinal/jpmc.git`
+1. Clone the repository: `git clone https://github.com/mehtapinal/jpmc.git` << `cd jpmc`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the app: `python app.py`
 
 ### Docker Setup
 1. Clone the repository: `git clone https://github.com/mehtapinal/jpmc.git`
-    cd projects
+    cd jpmc
 2. Build the Docker image
     `docker build -t log-app-server .`
 3. Run the Docker image
