@@ -1,9 +1,10 @@
 Objective: To verify that the search functionality of the web application is reliable, efficient, and user-friendly.
-Viewport: Desktop web
-Filter: Birthday & Big groups
-Geolocation: London
+- Viewport: Desktop web
+- Filter: Birthday & Big groups
+- Geolocation: London
 
 # High level Test Plan:
+This test plan focuses on depth of test cases and not breath(as suggested). The test plan also dwels into more whitebox testing to test APIs, cache and query optimizations
 
 ## Overview:
 The Restaurant Finder feature on the desktop web allows users to find restaurants in London by applying filters such as price range, cuisine, perfect for, etc. The feature uses Fitz GraphQL API as the API gateway to communicate with backend services such as Basie Search and Contentful. The communication between these services occurs via HTTPS, and protocol buffers are used to serialize and deserialize data between Fitz and Basie.
@@ -28,7 +29,7 @@ The following areas should be covered in testing the Restaurant Finder feature:
 * Testing of third-party libraries or dependencies used by the application, unless they are critical to the Restaurant Finder feature and need to be explicitly tested
 * Testing of non-standard or non-supported web browsers or operating systems.
 
-## Test Cases:
+## Test Cases: Functional tests
 Page Loading and Responsiveness
 * Verify that the page loads within a reasonable time frame and is responsive to user interactions.
 * Ensure that the page layout is consistent across different web browsers and screen sizes.
