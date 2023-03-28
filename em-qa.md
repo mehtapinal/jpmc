@@ -29,6 +29,7 @@ The following areas should be covered in testing the Restaurant Finder feature:
 * Testing of third-party libraries or dependencies used by the application, unless they are critical to the Restaurant Finder feature and need to be explicitly tested
 * Testing of non-standard or non-supported web browsers or operating systems.
 
+
 ## Test Cases: Functional tests
 Page Loading and Responsiveness
 * Verify that the page loads within a reasonable time frame and is responsive to user interactions.
@@ -52,14 +53,6 @@ Display of restaurant information
 * Verify that the restaurant information is displayed accurately and clearly.
 * Ensure that the information is consistent with the actual restaurant details.
 
-## API Tests: 
-* Verify that the API is accessible and returns a valid response
-* Verify that the Basie Search service is correctly querying data from Elasticsearch and returning it to Fitz
-* Verify that appropriate error messages are displayed if the search page or API encounters errors (e.g. network error, server error, no search results found)
- 
-## Performance Tests:
-* Test the search function with a large dataset and verify that the application returns results in a timely manner
-* Test the search function with multiple users and verify that the application can handle high-volume search queries
 
 ## Negative Tests:
 * Invalid input values: Try to enter invalid values in the search or filter fields, such as non-alphabetic characters in the name field or alphabetic characters in the distance field, and verify that appropriate error messages are displayed.
@@ -68,8 +61,21 @@ Display of restaurant information
 * Enter an empty search query and verify that the application provides helpful feedback to the user
 * Out-of-range filter values: Try to filter by price or distance values that are out of range, and verify that appropriate error messages are displayed.
 
+
+## API Tests/ White box tests: 
+* Verify that the API is accessible and returns a valid response
+* Verify that the Basie Search service is correctly querying data from Elasticsearch and returning it to Fitz
+* Verify that appropriate error messages are displayed if the search page or API encounters errors (e.g. network error, server error, no search results found)
+
+ 
+## Performance Tests:
+* Test the search function with a large dataset and verify that the application returns results in a timely manner
+* Test the search function with multiple users and verify that the application can handle high-volume search queries
+
+
 ## Compatibility Testing:
 * Verify that the search page and API function correctly on the latest versions of major desktop web browsers/OS (Chrome, Firefox, Safari, Edge) / (mac, windows)
+* Verify different browser sizes: 1024x768 to 1366x768 as the size can be adjusted by the user, and some browsers also have a full-screen mode that expands the window to fill the entire screen. 
 
 ## Test Environment:
 * The Restaurant Finder feature should be tested on a desktop web browser.
@@ -90,7 +96,9 @@ Test Reporting:
 The risk of critical defects affecting the Restaurant Finder feature is considered low, as the feature has been in production for some time and is generally stable.
 However, the risk of minor defects affecting the user experience is moderate and should be addressed promptly to maintain user satisfaction.
 One challenge to consider is ensuring the validity and correctness of the data generated from the search query. This can be a potential source of issues, especially if the search parameters are complex or the search results are being retrieved from an external API.
-Observability:
+
+
+## Observability:
 
 In order to mitigate the risks, we will improve our monitoring and alerting capabilities.
 Monitoring and alerting: Set up monitoring and alerting for the Restaurant Finder feature to detect any anomalies, errors, or performance issues. This can be done using tools like Prometheus, Grafana, and alert managers.
