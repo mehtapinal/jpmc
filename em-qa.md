@@ -24,9 +24,9 @@ The following areas should be covered in testing the Restaurant Finder feature:
 * Display of restaurant information
 
 ### Out of Scope:
-Testing of features or functionality outside of the scope of the Restaurant Finder, such as user authentication or account management
-Testing of third-party libraries or dependencies used by the application, unless they are critical to the Restaurant Finder feature and need to be explicitly tested
-Testing of non-standard or non-supported web browsers or operating systems.
+* Testing of features or functionality outside of the scope of the Restaurant Finder, such as user authentication or account management
+* Testing of third-party libraries or dependencies used by the application, unless they are critical to the Restaurant Finder feature and need to be explicitly tested
+* Testing of non-standard or non-supported web browsers or operating systems.
 
 ## Test Cases:
 Page Loading and Responsiveness
