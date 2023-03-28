@@ -86,7 +86,7 @@ Display of restaurant information
 * The test cases should be executed manually to ensure maximum coverage and accuracy.
 * Test automation tools such as Cypress will be used to speed up the testing process and automate high-priority test 
 
-Test Reporting:
+## Test Reporting:
 * Test results should be documented, including any defects or issues found during testing.
 * Defects should be reported to the development team for resolution and retested after fixes have been implemented.
 * Jira will be used as a tool for creating a Quality Dashboard
